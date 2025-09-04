@@ -77,7 +77,7 @@ app = FastAPI(title="Seed-VC API",
               lifespan=lifespan)
 
 TARGET_VOICES = {
-    "andreas": "examples/reference/andreas1.wav",
+    "andreas": "examples/reference/huberman.wav",
     "woman": "examples/reference/s1p1.wav",
     "trump": "examples/reference/trump_0.wav",
 }
@@ -109,6 +109,7 @@ async def generate_speech(request: VoiceConversionRequest, background_tasks: Bac
 
         logger.info("Downloading source audio")
         source_temp = NamedTemporaryFile(delete=False, suffix=".wav")
+
         try:
             s3_client.download_fileobj(
                 S3_BUCKET, Key=request.source_audio_key, Fileobj=source_temp)
