@@ -90,7 +90,3 @@
 # Logs
 **/logs/
 **/*.log
-
-
-
-docker-compose.yml
