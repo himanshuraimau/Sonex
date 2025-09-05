@@ -1,6 +1,6 @@
 # API Endpoints Documentation
 
-Base URL: `http://3.235.179.13`
+Base URL: `http://3.235.179.11`
 
 All APIs require an Authorization header with an API key. Replace `YOUR_API_KEY` with your actual API key.
 
@@ -10,29 +10,29 @@ All APIs require an Authorization header with an API key. Replace `YOUR_API_KEY`
 Converts text to speech using StyleTTS2.
 
 ```bash
-curl -X POST "http://3.235.179.13:8000/generate" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -d '{
-    "text": "Hello, this is a test of StyleTTS2 speech synthesis.",
-    "target_voice": "andreas"
-  }'
+curl -X POST "${BASE_URL}:8000/generate" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -d '{
+        "text": "Hello, this is a test of StyleTTS2 speech synthesis.",
+        "target_voice": "andreas"
+    }'
 ```
 
 ### List Available Voices
 Returns the list of available voice options.
 
 ```bash
-curl -X GET "http://3.235.179.13:8000/voices" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET "${BASE_URL}:8000/voices" \
+    -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### Health Check
 Checks if the StyleTTS2 model is loaded and healthy.
 
 ```bash
-curl -X GET "http://3.235.179.13:8000/health" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET "${BASE_URL}:8000/health" \
+    -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 **Available Voices:** `andreas`, `woman`
@@ -45,29 +45,29 @@ curl -X GET "http://3.235.179.13:8000/health" \
 Converts voice from source audio to target voice style.
 
 ```bash
-curl -X POST "http://3.235.179.13:8001/convert" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -d '{
-    "source_audio_key": "path/to/source/audio.wav",
-    "target_voice": "andreas"
-  }'
+curl -X POST "${BASE_URL}:8001/convert" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -d '{
+        "source_audio_key": "path/to/source/audio.wav",
+        "target_voice": "andreas"
+    }'
 ```
 
 ### List Available Target Voices
 Returns the list of available target voices for conversion.
 
 ```bash
-curl -X GET "http://3.235.179.13:8001/voices" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET "${BASE_URL}:8001/voices" \
+    -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ### Health Check
 Checks if the Seed-VC model is loaded and healthy.
 
 ```bash
-curl -X GET "http://3.235.179.13:8001/health" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET "${BASE_URL}:8001/health" \
+    -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 **Available Target Voices:** `andreas`, `woman`, `trump`
@@ -80,20 +80,20 @@ curl -X GET "http://3.235.179.13:8001/health" \
 Generates audio from text prompt using Make-An-Audio.
 
 ```bash
-curl -X POST "http://3.235.179.13:8002/generate" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -d '{
-    "prompt": "A dog barking in the park"
-  }'
+curl -X POST "${BASE_URL}:8002/generate" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -d '{
+        "prompt": "A dog barking in the park"
+    }'
 ```
 
 ### Health Check
 Checks if the Make-An-Audio model is loaded and healthy.
 
 ```bash
-curl -X GET "http://3.235.179.13:8002/health" \
-  -H "Authorization: Bearer YOUR_API_KEY"
+curl -X GET "${BASE_URL}:8002/health" \
+    -H "Authorization: Bearer YOUR_API_KEY"
 ```
 
 ---
@@ -103,30 +103,30 @@ curl -X GET "http://3.235.179.13:8002/health" \
 ### Successful Audio Generation Response
 ```json
 {
-  "audio_url": "https://s3-presigned-url-to-audio-file",
-  "s3_key": "path/to/audio/file/in/s3"
+    "audio_url": "https://s3-presigned-url-to-audio-file",
+    "s3_key": "path/to/audio/file/in/s3"
 }
 ```
 
 ### Health Check Response
 ```json
 {
-  "status": "healthy",
-  "model": "loaded"
+    "status": "healthy",
+    "model": "loaded"
 }
 ```
 
 ### Voice List Response
 ```json
 {
-  "voices": ["andreas", "woman", "trump"]
+    "voices": ["andreas", "woman", "trump"]
 }
 ```
 
 ### Error Response
 ```json
 {
-  "detail": "Error message describing what went wrong"
+    "detail": "Error message describing what went wrong"
 }
 ```
 
@@ -160,25 +160,26 @@ or
 
 ### 1. Generate speech with StyleTTS2:
 ```bash
-curl -X POST "http://3.235.179.13:8000/generate" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -d '{"text": "Hello world", "target_voice": "andreas"}'
+curl -X POST "${BASE_URL}:8000/generate" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -d '{"text": "Hello world", "target_voice": "andreas"}'
 ```
 
 ### 2. Convert voice with Seed-VC:
 ```bash
 # First upload your source audio to S3, then:
-curl -X POST "http://3.235.179.13:8001/convert" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -d '{"source_audio_key": "uploads/my-audio.wav", "target_voice": "trump"}'
+curl -X POST "${BASE_URL}:8001/convert" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -d '{"source_audio_key": "uploads/my-audio.wav", "target_voice": "trump"}'
 ```
 
 ### 3. Generate sound effects with Make-An-Audio:
 ```bash
-curl -X POST "http://3.235.179.13:8002/generate" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -d '{"prompt": "Rain falling on leaves"}'
+curl -X POST "${BASE_URL}:8002/generate" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -d '{"prompt": "Rain falling on leaves"}'
 ```
+
