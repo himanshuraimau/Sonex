@@ -1,19 +1,20 @@
 --extra-index-url https://download.pytorch.org/whl/cu113
-torch
+torch==2.1.0
 torch-fidelity
 scipy
 importlib_resources
-torchaudio
-torchvision
+torchaudio==2.1.0
+torchvision==0.16.0
 tqdm
 omegaconf
 einops
-numpy<=1.23.5
+numpy>=1.21.0,<1.24.0
 soundfile
 librosa==0.9.2
 pandas
 torchlibrosa
-transformers
+transformers>=4.21.0,<4.36.0
+soxr
 ftfy
 pytorch-lightning
 torchmetrics
@@ -22,3 +23,4 @@ boto3
 fastapi
 pydantic
 uvicorn
+python-dotenv>=1.1.1

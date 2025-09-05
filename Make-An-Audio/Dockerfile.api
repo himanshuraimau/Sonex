@@ -18,6 +18,8 @@ RUN pip install -r requirements.txt
 COPY configs ./configs
 COPY ldm ./ldm
 COPY vocoder ./vocoder
+COPY msclap ./msclap
+COPY preprocess ./preprocess
 COPY gen_wav.py ./
 COPY api.py ./
 COPY useful_ckpts ./useful_ckpts

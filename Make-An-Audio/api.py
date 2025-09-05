@@ -15,6 +15,7 @@ from gen_wav import SAMPLE_RATE, gen_wav, initialize_model
 from vocoder.bigvgan.models import VocoderBigVGAN
 import soundfile as sf
 
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
