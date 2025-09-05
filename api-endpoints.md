@@ -45,12 +45,12 @@ curl -X GET "${BASE_URL}:8000/health" \
 Converts voice from source audio to target voice style.
 
 ```bash
-curl -X POST "${BASE_URL}:8001/convert" \
+curl -X POST "http://localhost:8000/convert" \
     -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Authorization: Bearer 12345" \
     -d '{
-        "source_audio_key": "path/to/source/audio.wav",
-        "target_voice": "andreas"
+        "source_audio_key": "examples/reference/woman.wav",
+        "target_voice": "huberman"
     }'
 ```
 

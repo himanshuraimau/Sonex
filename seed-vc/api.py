@@ -77,7 +77,7 @@ app = FastAPI(title="Seed-VC API",
               lifespan=lifespan)
 
 TARGET_VOICES = {
-    "andreas": "examples/reference/huberman.wav",
+    "huberman": "examples/reference/huberman.wav",
     "woman": "examples/reference/s1p1.wav",
     "trump": "examples/reference/trump_0.wav",
 }
@@ -128,20 +128,26 @@ async def generate_speech(request: VoiceConversionRequest, background_tasks: Bac
 
         # Upload to S3
         s3_key = f"{S3_PREFIX}/{output_filename}"
+        logger.info(f"Uploading to S3: bucket={S3_BUCKET}, key={s3_key}")
         s3_client.upload_file(local_path, S3_BUCKET, s3_key)
+        logger.info("Upload completed successfully")
 
+        logger.info("Generating presigned URL")
         presigned_url = s3_client.generate_presigned_url(
             'get_object',
             Params={'Bucket': S3_BUCKET, 'Key': s3_key},
             ExpiresIn=3600
         )
+        logger.info(f"Generated presigned URL: {presigned_url}")
 
         background_tasks.add_task(os.remove, local_path)
 
-        return {
+        response = {
             "audio_url": presigned_url,
             "s3_key": s3_key
         }
+        logger.info(f"Returning response: {response}")
+        return response
     except Exception as e:
         logger.error(f"Error in voice conversion: {e}")
         raise HTTPException(
